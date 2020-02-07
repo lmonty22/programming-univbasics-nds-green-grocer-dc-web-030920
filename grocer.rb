@@ -19,16 +19,6 @@ def find_item_by_name_in_collection(name, collection)
   r
 end
 
-def return_index_number(result, item_name) 
-       index = 0 
-       while index < result.length do 
-           if result[index][:item] == item_name 
-                return index 
-           end 
-         index += 1 
-       end 
-end
-
 
 def consolidate_cart(cart)
   # Consult README for inputs and outputs
@@ -38,20 +28,19 @@ def consolidate_cart(cart)
 result = []
 index = 0 
   while index < cart.length do 
-    new_cart_item = cart[index] 
     cart_item_name = cart[index][:item]
-    x = find_item_by_name_in_collection(cart_item_name, result) 
-       if x == nil 
-           new_cart_item[:count] = 1
-           result.push(new_cart_item)
-        else 
-           result_index = return_index_number(result, cart_item_name)
-           result[result_index][:count] += 1
-         end 
-        index += 1
-      end 
- result 
-end 
+    new_cart_item = cart[index] 
+    item_already_in_cart = find_item_by_name_in_collection(cart_item_name, result)
+    if item_already_in_cart
+      item_already_in_cart[:count] += 1 
+    else 
+      new_cart_item[:count] = 1 
+      result.push(new_cart_item)
+    end
+    index += 1 
+  end
+  result
+end
 
 def apply_coupons(cart, coupons)
   # Consult README for inputs and outputs
